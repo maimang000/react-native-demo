@@ -8,12 +8,24 @@ import {
 } from 'react-native';
 
 import Navigator from './RootRouter'
+import {_scaleWidth,_scaleHeight,_fontScale} from './src/common/screensize.js'
 
-export default class App extends Component<{}> {
+//字体大小不跟随系统
+var render = Text.prototype.render
+// 重写render方法
+Text.prototype.render = function() {
+    let text = render.apply(this, arguments);
+    return React.cloneElement(text, {
+        allowFontScaling: true
+    })
+    
+}
+
+export default class App extends Component {
   render() {
     return (
       <DrawerLayoutAndroid
-        drawerWidth={200}
+        drawerWidth={500*_scaleWidth}
         drawerPosition={DrawerLayoutAndroid.positions.Left}
         renderNavigationView={() => <View style={{flex:1,justifyContent:'center',alignItems:'center'}}>
                                       <Text>DrawerLayoutAndroid</Text>
